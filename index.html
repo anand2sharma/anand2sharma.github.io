@@ -28,7 +28,7 @@
   <!-- MAIN CONTENT -->
   <div id="main_content_wrap" class="outer">
     <section id="main_content" class="inner">
-      <p class="eda-title">Exploring worlds top ten economies growth</p>
+      <p class="eda-title">Exploring worlds top ten economies growth with R</p>
       <div class="eda-content">
         <p> I have been curious about data and its applications for a while now and recently I decided to take the plunge.
           After lot of searching and reading stuff online I found this fantastic free <a href="https://www.udacity.com/course/data-analysis-with-r--ud651">cousre </a>
@@ -58,19 +58,54 @@
             <li>Shall We consider only top ten countries by GDP?</li>
           </ul>
           <p> Data Cleansing & Transformations </p>
-          <p> After forming basic questionaire, We have to trnaform raw data so we can compute and visualize it. </p>
-      </div>
-    </sectionA>
-  </div>
+          <p> After forming basic questionaire, We have to transform raw data so we can compute and visualize it. </p>
+          <p>We will be using R to explore, understand and transform data. For those who are not familier with R, It is an open source simple programming launguge to manipulate data with tons of liberary availble for free. It has simple syntax so it should be readable even if you are not familier with this language.   </p>
+          <p>We will use two R packages, <span class="eda-highlight">ggplot2</span> for creating graphs and <span class="eda-highlight">reshape</span> for data manipulation and <span class="eda-highlight">R Studio</span> for development.</p>
+          <p> So lets get started: </P>
+            <p> First thing we need is to get the data needed for our exploration. Go to <a class="eda-link" href="https://www.gapminder.org/data/">Gapminder's</a> website and search for "Economic growth over the past 10 years" then download the excel file. As file is in exel format we need to covert it into csv for manipulation. This is a personal choice. You can go with excel itself and there are some really awesome liberaries available that can do the job for you. I personally prefered csv as a format to work with. Second is conversion from excel to csv, There re so many wyas of doing it but for simplicity we will go this Google Docs. Just upload the file into docs and then download it as csv. </P>
+              <P> So we got our csv file now its time to import it to have some fun with R.</p>
+                <p class="eda-code">
+                  install.packages('ggplot2')
+                  install.packages('reshape')
+                  library('ggplot2')
+                  library('reshape')
+                  gdp_data <- read.csv('data.csv', sep = ',')
+                </p>
+                <p>Here we wrote five statements which are pretty self explanatory. First two staements install both the pacakges we need, next two loads the pacakges in memory for us. Every time you start R Studio you have a reload all your dependencies. Last statement import out converted csv file into memory for R to work with. </p>
+                <p class="eda-code">
+                  gdp_data_top_10_stack <- melt(gdp_data_top_10, id.vars = 1:1)
+                  gdp_data_top_10_stack$variable <- as.character(gdp_data_top_10_stack$variable)
+                  gdp_data_top_10_stack$variable <- substring(gdp_data_top_10_stack$variable, 2, nchar(gdp_data_top_10_stack$variable))
+                </p>
+                <p class="eda-code">
+                  names(gdp_data_top_10_stack)[2] <- "year"
+                  names(gdp_data_top_10_stack)[3] <- "Economic_Growth"
+                </p>
+                <p class="eda-code">
+                  gdp_data_top_10_stack <- droplevels(gdp_data_top_10_stack)
+                </p>
+                <p class="eda-code">
+                  qplot(x=country, y=Economic_Growth,
+                  data = gdp_data_top_10_stack,
+                  geom = 'boxplot',
+                  fill = country)
+                </p>
+                <p class="eda-code">
+                  by(gdp_data_top_10_stack$Economic_Growth, gdp_data_top_10_stack$country, summary)
+                </p>
 
-  <!-- FOOTER  -->
-  <div id="footer_wrap" class="outer">
-    <footer class="inner">
-      <p><a href="twitter.com/anand2sharma">Anand Sharma</a></p>
-    </footer>
-  </div>
+              </div>
+            </sectionA>
+          </div>
+
+          <!-- FOOTER  -->
+          <div id="footer_wrap" class="outer">
+            <footer class="inner">
+              <p><a href="twitter.com/anand2sharma">Anand Sharma</a></p>
+            </footer>
+          </div>
 
 
 
-</body>
-</html>
+        </body>
+        </html>
