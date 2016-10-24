@@ -35,77 +35,98 @@
           by Facebook on Udacity to start my adventure with data. I am doing this post to remind my future self and anybody who wants to give exploratory data analysis a Go. Remember I am still a beginer and if have any suggestions or improvements, you are Welcome :).
         </p>
         <p>
-          So after having gone though first 3 chapters of the course Udaicty gives an excercise where we have to pick any data of our chocie from Gapminder website and apply our skills that we have learnt so far.
-          As I have some intrest in econoics and markets, I went with "Economic growth over the past 10 years" dataset.
+          So after having gone through first 3 chapters of the course Udacity gives an exercise where we have to pick any data of our choice from Gapminder website and apply our skills that we have learnt so far.
+          As I have some interest in economics and markets, I went with "Economic growth over the past 10 years" dataset.
         </p>
-        <p> Now first thing I need to do was to get myself familer with data and its structure. I had following observations: </p>
-        <ul>
-          <li>Provided data has observations for 188 countires over period 1960-2004</li>
-          <li>There were lots of small countries which were having missing data values throughouot as late as 1990</li>
-          <li>The data is in "Wide" format as there were 188 observation for 46 variables. One variable each for a year </li>
-          <li>I need to provide apply proper naming and tranformation on column names</li>
-        </ul>
-        <p> Asking Questions? </p>
-        <p>  On initial observation and exploration it was time to think about what questions we can ask and get answersed by available data?
-          I thought We can address these ones: </p>
-          <ul>
-            <li>Which country has most consistent growth pattern?</li>
-            <li>Is there any country which was lagging behind initially and then saw rapid rise or vice-versa and Why?</li>
-            <li>Is there any outlier leader or leggard in growth?</li>
-            <li>Is there any co-relation between the growth of two specific countries?</li>
-            <li>Any particular year or event which changed the economic growth trajectory of any country for decades?</li>
-            <li>Shall We consider those countries which has lots of missing values?</li>
-            <li>Shall We consider only top ten countries by GDP?</li>
-          </ul>
-          <p> Data Cleansing & Transformations </p>
-          <p> After forming basic questionaire, We have to transform raw data so we can compute and visualize it. </p>
-          <p>We will be using R to explore, understand and transform data. For those who are not familier with R, It is an open source simple programming launguge to manipulate data with tons of liberary availble for free. It has simple syntax so it should be readable even if you are not familier with this language.   </p>
-          <p>We will use two R packages, <span class="eda-highlight">ggplot2</span> for creating graphs and <span class="eda-highlight">reshape</span> for data manipulation and <span class="eda-highlight">R Studio</span> for development.</p>
-          <p> So lets get started: </P>
-            <p> First thing we need is to get the data needed for our exploration. Go to <a class="eda-link" href="https://www.gapminder.org/data/">Gapminder's</a> website and search for "Economic growth over the past 10 years" then download the excel file. As file is in exel format we need to covert it into csv for manipulation. This is a personal choice. You can go with excel itself and there are some really awesome liberaries available that can do the job for you. I personally prefered csv as a format to work with. Second is conversion from excel to csv, There re so many wyas of doing it but for simplicity we will go this Google Docs. Just upload the file into docs and then download it as csv. </P>
-              <P> So we got our csv file now its time to import it to have some fun with R.</p>
-                <p class="eda-code">
-                  install.packages('ggplot2')
-                  install.packages('reshape')
-                  library('ggplot2')
-                  library('reshape')
-                  gdp_data <- read.csv('data.csv', sep = ',')
-                </p>
-                <p>Here we wrote five statements which are pretty self explanatory. First two staements install both the pacakges we need, next two loads the pacakges in memory for us. Every time you start R Studio you have a reload all your dependencies. Last statement import out converted csv file into memory for R to work with. </p>
-                <p class="eda-code">
-                  gdp_data_top_10_stack <- melt(gdp_data_top_10, id.vars = 1:1)
-                  gdp_data_top_10_stack$variable <- as.character(gdp_data_top_10_stack$variable)
-                  gdp_data_top_10_stack$variable <- substring(gdp_data_top_10_stack$variable, 2, nchar(gdp_data_top_10_stack$variable))
-                </p>
-                <p class="eda-code">
-                  names(gdp_data_top_10_stack)[2] <- "year"
-                  names(gdp_data_top_10_stack)[3] <- "Economic_Growth"
-                </p>
-                <p class="eda-code">
-                  gdp_data_top_10_stack <- droplevels(gdp_data_top_10_stack)
-                </p>
-                <p class="eda-code">
-                  qplot(x=country, y=Economic_Growth,
-                  data = gdp_data_top_10_stack,
-                  geom = 'boxplot',
-                  fill = country)
-                </p>
-                <p class="eda-code">
-                  by(gdp_data_top_10_stack$Economic_Growth, gdp_data_top_10_stack$country, summary)
-                </p>
+        <p> Now first thing I needed to do was to get myself familiar with data and its structure. For that we will be using R to explore, understand and transform data. For those who are not familiar with R, It is an open source simple programming language to manipulate data with tons of library available for free. It has simple syntax so it should be readable even if you are not familiar with this language.   </p>
+        <p>We will use two R packages, <span class="eda-highlight">ggplot2</span> for creating graphs and <span class="eda-highlight">reshape</span> for data manipulation and <span class="eda-highlight">RStudio</span> for development.</p>
+        <p> So let's get started: </P>
+          <p> First thing we need is to get the data needed for our exploration. Go to <a class="eda-link" href="https://www.gapminder.org/data/">Gapminder's</a> website and search for "Economic growth over the past 10 years" then download the excel file. As file is in excel format we need to convert it into csv for manipulation. This is a personal choice. You can go with excel itself and there are some really awesome libraries available that can do the job for you. I personally prefered csv as a format to work with. Second is conversion from excel to csv, There are so many ways of doing it but for simplicity we will go this Google Docs. Just upload the file into docs and then download it as csv. </P>
+            <P> So we got our csv file now it's time to import it to have some fun with R.</p>
+              <p class="eda-code">
+                install.packages('ggplot2')
+                install.packages('reshape')
+                library('ggplot2')
+                library('reshape')
+                gdp_data <- read.csv('data.csv', sep = ',')
+              </p>
+              <p>Here we wrote five statements which are pretty self explanatory. First two statements install both the packages we need, next two loads the packages in memory for us. Every time you start RStudio you have a reload all your dependencies. Last statement import out converted csv file into memory for R to work with. </p>
+              <p>After getting data into R it was time to analyze it and form some basic understanding of it. I had following observations: </p>
+              <ul>
+                <li>Provided data has observations for 188 countries over period 1960-2004</li>
+                <li>There were lots of small countries which were having missing data values throughout as late as 1990</li>
+                <li>The data is in "Wide" format as there were 188 observation for 46 variables. One variable each for a year </li>
+                <li>I need to provide apply proper naming and transformation on column names</li>
+              </ul>
+              <p> Asking Questions? </p>
+              <p>  On initial observation and exploration it was time to think about what questions we can ask and get answered by available data?
+                I thought We can address these ones: </p>
+                <ul>
+                  <li>Which country has most consistent growth pattern?</li>
+                  <li>Is there any country which was lagging behind initially and then saw rapid rise or vice-versa and Why?</li>
+                  <li>Is there any outlier leader or leggard in growth?</li>
+                  <li>Is there any correlation between the growth of two specific countries?</li>
+                  <li>Any particular year or event which changed the economic growth trajectory of any country for decades?</li>
+                  <li>Shall We consider those countries which has lots of missing values?</li>
+                  <li>Shall We consider only top ten countries by GDP?</li>
+                </ul>
 
+                <p> After forming basic questionnaire, We have to transform raw data so we can compute and visualize it. Above listed questions were not form in ny specific order, I just wrote them as they occur to me. </p>
+                <p>On going through all the questions I thought we should go for answering last two questions first. As they will change the data that we will be working with.</p>
+                <P>Shall We consider those countries which has lots of missing values?</p>
+                  <p>I thought significant missing values would affect data quality and later our model if we build one which ultimately affect prediction. I also thought of any other filling method such as replacing missing values and other solutions but decided not to include countries which has lots of missing values. Another factor was answer of our next question. </p>
+                  <p>Shall We consider only top ten countries by GDP?</p>
+                  <p>As world's top ten country by GDP contributed almost 68% to global GDP. I thought it would be better to just focus on top ten economies only as it would cut the noise and will correctly reflect the status of whole world.</p>
+
+                  <p> Data Cleansing & Transformations </p>
+
+                  <p> Since we will focus only on top ten countries, we will need to transform our data to reflect that. But before that there are some issue with the data quality here such as names of the column, format ofthe data etc. That we need to address before plotting our data to get answers. </p>
+                  <p class="eda-code">
+                    names(gdp_data)[1] <- 'country'
+                    gdp_data_top_10 <- subset(gdp_data,gdp_data$country %in% c("United States","China","Japan","Germany","United Kingdom","France","India","Italy","Brazil","Canada"))
+                  </p>
+
+                  <p class="eda-code">
+                    gdp_data_top_10_stack <- melt(gdp_data_top_10, id.vars = 1:1)
+                    gdp_data_top_10_stack$variable <- as.character(gdp_data_top_10_stack$variable)
+                    gdp_data_top_10_stack$variable <- substring(gdp_data_top_10_stack$variable, 2, nchar(gdp_data_top_10_stack$variable))
+                  </p>
+
+                  <p>As you will observe data is in wide format i.e. there are one column each for every single year since 1960 till 2004. It would have been easy for us if we can have per year data for each country in row to help us visualize. For that we have used melt function of Reshape library which does it for us in single line of code.
+                    Next you will observe that all years have X appended with them such as 1960 is names as X1960. We need to remove this extra character as it will help R to perform any manipulations on date we want. Also readability will be improved when we look at the data. Next two lines of code do this for us. </p>
+
+                    <p class="eda-code">
+                      names(gdp_data_top_10_stack)[2] <- "year"
+                      names(gdp_data_top_10_stack)[3] <- "Economic_Growth"
+                      gdp_data_top_10_stack <- droplevels(gdp_data_top_10_stack)
+                    </p>
+                    <p>
+                      Here we update the names of column variables in data set and drop any duplicate values if there is any.
+                    </p>
+                    <p> Finally we have our dta ready to plot and discover insight from it. I choose box plot for charting as it will convey use distribution and variability of data in one single graph</p>
+                    <p class="eda-code">
+                      qplot(x=country, y=Economic_Growth,
+                      data = gdp_data_top_10_stack,
+                      geom = 'boxplot',
+                      fill = country)
+                    </p>
+                    <p>Then we can further investigate GDP growth by countries using following command.  </p>
+                    <p class="eda-code">
+                      by(gdp_data_top_10_stack$Economic_Growth, gdp_data_top_10_stack$country, summary)
+                    </p>
+
+                  </div>
+                </sectionA>
               </div>
-            </sectionA>
-          </div>
 
-          <!-- FOOTER  -->
-          <div id="footer_wrap" class="outer">
-            <footer class="inner">
-              <p><a href="twitter.com/anand2sharma">Anand Sharma</a></p>
-            </footer>
-          </div>
+              <!-- FOOTER  -->
+              <div id="footer_wrap" class="outer">
+                <footer class="inner">
+                  <p><a href="twitter.com/anand2sharma">Anand Sharma</a></p>
+                </footer>
+              </div>
 
 
 
-        </body>
-        </html>
+            </body>
+            </html>
