@@ -7,15 +7,23 @@
   <meta name="author" content="Anand Sharma - @anand2sharma">
 
 
+
+
   <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
   <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/app.css">
+
+
 
 
   <title>Data First - D3</title>
 </head>
 
 
+
+
 <body>
+
+
 
 
   <!-- HEADER -->
@@ -24,12 +32,18 @@
       <a id="forkme_banner" href="https://github.com/anand2sharma"></a>
 
 
+
+
       <h1 id="project_title">Data First - D3</h1>
       <h2 id="project_tagline">Data Driven Discovery</h2>
 
 
+
+
     </header>
   </div>
+
+
 
 
   <!-- MAIN CONTENT -->
@@ -42,14 +56,14 @@
           by Facebook on Udacity to start my adventure with data. I am doing this post to remind my future self and anybody who wants to give exploratory data analysis a Go. Remember I am still a beginner and if you have  any suggestions or improvements, you are Welcome :).
         </p>
         <p>
-          So after having gone through first 3 chapters of the course Udacity gives an exercise where we have to pick any data of our choice from Gapminder website and apply our skills that we have learnt so far.
+          So after having gone through first 3 chapters of the course, Udacity gives an exercise where we have to pick any data of our choice from Gapminder website and apply our skills that we have learnt so far.
           As I have some interest in economics and markets, I went with "Economic growth over the past 10 years" dataset.
         </p>
         <p> Now first thing I needed to do was to get myself familiar with data and its structure. For that we will be using R to explore, understand and transform data. For those who are not familiar with R, It is an open source simple programming language to manipulate data with tons of library available for free. It has simple syntax so it should be readable even if you are not familiar with this language.   </p>
-        <p>We will use two R packages, <span class="eda-highlight">ggplot2</span> for creating graphs and <span class="eda-highlight">reshape</span> for data manipulation and <span class="eda-highlight">RStudio</span> for development.</p>
+        <p>We will use two R packages, <span class="eda-highlight">ggplot2</span> for creating graphs, <span class="eda-highlight">reshape</span> for data manipulation and <span class="eda-highlight">RStudio</span> for development.</p>
         <p> So let's get started: </P>
-          <p> First thing we need is to get the data needed for our exploration. Go to <a class="eda-link" href="https://www.gapminder.org/data/">Gapminder's</a> website and search for "Economic growth over the past 10 years" then download the excel file. As file is in excel format we need to convert it into csv for manipulation. This is a personal choice. You can go with excel itself and there are some really awesome libraries available that can do the job for you. I personally prefered csv as a format to work with. Second is conversion from excel to csv, There are so many ways of doing it but for simplicity we will go this Google Docs. Just upload the file into docs and then download it as csv. </P>
-            <P> So we got our csv file now it's time to import it to have some fun with R.</p>
+          <p> First thing we need is to get the data needed for our exploration. Go to <a class="eda-link" href="https://www.gapminder.org/data/">Gapminder's</a> website and search for "Economic growth over the past 10 years" then download the excel file. The file is in excel format we need to convert it into csv for manipulation. This is a personal choice. You can go with excel itself and there are some really awesome libraries available that can do the job for you. I personally prefered csv as a format to work with. Second is conversion from excel to csv, There are so many ways of doing it but for simplicity we will go with Google Docs. Just upload the file into docs and then download it as csv. </P>
+            <P> So we got our csv file now it's time to import it and have some fun with R.</p>
               <p class="eda-code">
                 install.packages('ggplot2')
                 install.packages('reshape')
@@ -57,13 +71,13 @@
                 library('reshape')
                 gdp_data <- read.csv('data.csv', sep = ',')
               </p>
-              <p>Here we wrote five statements which are pretty self explanatory. First two statements install both the packages we need, next two loads the packages in memory for us. Every time you start RStudio you have a reload all your dependencies. Last statement import out converted csv file into memory for R to work with. </p>
+              <p>Here we wrote five statements which are pretty self explanatory. First two statements install both the packages we need, next two loads the packages in memory for us. Every time you start RStudio you have to reload all your dependencies even if they are already installed. Last statement import our converted csv file into memory for R to work with. </p>
               <p>After getting data into R it was time to analyze it and form some basic understanding of it. I had following observations: </p>
               <ul>
                 <li>Provided data has observations for 188 countries over period 1960-2004</li>
                 <li>There were lots of small countries which were having missing data values throughout as late as 1990</li>
                 <li>The data is in "Wide" format as there were 188 observation for 46 variables. One variable each for a year </li>
-                <li>I need to provide apply proper naming and transformation on column names</li>
+                <li>We need to apply proper naming and transformation on column names</li>
               </ul>
               <p> Asking Questions? </p>
               <p>  On initial observation and exploration it was time to think about what questions we can ask and get answered by available data?
@@ -79,6 +93,8 @@
                 </ul>
 
 
+
+
                 <p> After forming basic questionnaire, We have to transform raw data so we can compute and visualize it. Above listed questions were not form in ny specific order, I just wrote them as they occur to me. </p>
                 <p>On going through all the questions I thought we should go for answering last two questions first. As they will change the data that we will be working with.</p>
                 <P>Shall We consider those countries which has lots of missing values?</p>
@@ -87,7 +103,11 @@
                   <p>As world's top ten country by GDP contributed almost 68% to global GDP. I thought it would be better to just focus on top ten economies only as it would cut the noise and will correctly reflect the status of whole world.</p>
 
 
+
+
                   <p> Data Cleansing & Transformations </p>
+
+
 
 
                   <p> Since we will focus only on top ten countries, we will need to transform our data to reflect that. But before that there are some issue with the data quality here such as names of the column, format ofthe data etc. That we need to address before plotting our data to get answers. </p>
@@ -107,8 +127,12 @@
                   </p>
 
 
+
+
                   <p>As you will observe data is in wide format i.e. there are one column each for every single year since 1960 till 2004. It would have been easy for us if we can have per year data for each country in row to help us visualize. For that we have used melt function of Reshape library which does it for us in single line of code.
                     Next you will observe that all years have X appended with them such as 1960 is names as X1960. We need to remove this extra character as it will help R to perform any manipulations on date we want. Also readability will be improved when we look at the data. Next two lines of code do this for us. </p>
+
+
 
 
                     <p class="eda-code">
@@ -145,34 +169,50 @@
                     <p>We can easily infer China as one which saw rapid rise after a slow start. Where as Japan is one the which started great, gained some momentum and then flattered in the end.</p>
                     <p>Is there any outlier leader or leggard in growth?</p>
                     <p>Clearly China was world leader in growth during 1960-2004 period.</P>
-                      <p>Any particular year or event which changed the economic growth trajectory of any country for decades?</P>
-                        <P>We can easily observe from above chart that Brazil, China, France, India, Italy and Japan are countrie which has that one impact year that changes their economic growth trajectory for decades or forever in some cases. Curious mind can also find our what were the event which triggered these changes but we will stay away from it for now. Following the code that we will se to find out exact year for these countries. e.g. Japan  </P>
+                      <p>Is there any correlation between the growth of two specific countries?</p>
+                      <p>There seems to be some correlation between Japan and China but it is still our intuition. Lets confirm this with data.</p
                         <p class="eda-code">
-                          qplot(x = year, y = Economic_Growth,  data = subset(gdp_data_top_10_stack, country == 'Japan')) + scale_x_continuous(limits = c(1960,2004), breaks = seq(1960,2004,2))  + facet_wrap(~country)
+                          qplot(x = year, y = Economic_Growth,  data = subset(gdp_data_top_10_stack, country %in% c('Japan','China'))) + scale_x_continuous(limits = c(1960,2004), breaks = seq(1960,2004,5))  + facet_wrap(~country)
                         </p>
-                        <img class="eco-plot" src="images/Japan.png">
-                        <p>For Japan, 1969 was inflection point in terms of growth. It was growing about 8% in that year but after that it fell off and never got back to those growth rates in its entire history. </p>
-                        <p>For others it follows as</p>
-                        <ul>
-                          <li>Brazil: 1976</li>
-                          <li>China: 1968</li>
-                          <li>France: 1969</li>
-                          <li>India: 1974</li>
-                          <li>Italy: 1968</li>
-                        </ul>
-                        <p>As you can see 1967-1977 was the decade when all major world economy saw their fortunes changed upside down from being world leader to growth leggard. </p>
 
 
-                      </div>
-                    </section>
-                  </div>
+                        <p>Above code confirms growth trajectory over time for both the countries side by side. Below is generated graph.</p>
+                        <img class="eco-plot" src="images/China-Japan.png">
+                        <p>As you can observe there is negative correlation between two countries. As China started to grow around late 60's and 70's at same time Japan started its never ending slide in growth.</p>
 
-                  <!-- FOOTER  -->
-                  <div id="footer_wrap" class="outer">
-                    <footer class="inner">
-                      <p><a href="twitter.com/anand2sharma">Anand Sharma</a></p>
-                    </footer>
-                  </div>
 
-                </body>
-                </html>
+                        <p>Any particular year or event which changed the economic growth trajectory of any country for decades?</P>
+                          <P>We can easily observe from first graph that Brazil, China, France, India, Italy and Japan are countrie which has had that one impact year that changes their economic growth trajectory for decades or forever in some cases. Curious mind can also find out what were the event which triggered these changes but we will stay away from it for now. Following the code that we will se to find out exact year for these countries. e.g. Japan  </P>
+                          <p class="eda-code">
+                            qplot(x = year, y = Economic_Growth,  data = subset(gdp_data_top_10_stack, country == 'Japan')) + scale_x_continuous(limits = c(1960,2004), breaks = seq(1960,2004,2))  + facet_wrap(~country)
+                          </p>
+                          <img class="eco-plot" src="images/Japan.png">
+                          <p>For Japan, 1969 was inflection point in terms of growth. It was growing about 8% in that year but after that it fell off and never got back to those growth rates in its entire history. </p>
+                          <p>For others it follows as</p>
+                          <ul>
+                            <li>Brazil: 1976</li>
+                            <li>China: 1968</li>
+                            <li>France: 1969</li>
+                            <li>India: 1974</li>
+                            <li>Italy: 1968</li>
+                          </ul>
+                          <p>As you can see 1967-1977 was the decade when all major world economy saw their fortunes changed upside down from being world leader to growth leggard. </p>
+
+
+                          <p> So we have been able to answer all our curiosity and questions from data and that's awesome because its unbiased and accurate. I know this article got little long and hope it was worth your time. Thanks for reading and keep crunching data, YAY!!</p>
+
+                        </div>
+                      </section>
+                    </div>
+
+
+                    <!-- FOOTER  -->
+                    <div id="footer_wrap" class="outer">
+                      <footer class="inner">
+                        <p><a href="twitter.com/anand2sharma">Anand Sharma</a></p>
+                      </footer>
+                    </div>
+
+
+                  </body>
+                  </html>
