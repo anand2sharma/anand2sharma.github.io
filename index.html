@@ -6,24 +6,31 @@
   <meta name="description" content="Anand Sharma : Data First">
   <meta name="author" content="Anand Sharma - @anand2sharma">
 
+
   <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
   <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/app.css">
+
 
   <title>Data First - D3</title>
 </head>
 
+
 <body>
+
 
   <!-- HEADER -->
   <div id="header_wrap" class="outer">
     <header class="inner">
       <a id="forkme_banner" href="https://github.com/anand2sharma"></a>
 
+
       <h1 id="project_title">Data First - D3</h1>
       <h2 id="project_tagline">Data Driven Discovery</h2>
 
+
     </header>
   </div>
+
 
   <!-- MAIN CONTENT -->
   <div id="main_content_wrap" class="outer">
@@ -32,7 +39,7 @@
       <div class="eda-content">
         <p> I have been curious about data and its applications for a while now and recently I decided to take the plunge.
           After lot of searching and reading stuff online I found this fantastic free <a href="https://www.udacity.com/course/data-analysis-with-r--ud651">cousre </a>
-          by Facebook on Udacity to start my adventure with data. I am doing this post to remind my future self and anybody who wants to give exploratory data analysis a Go. Remember I am still a beginer and if have any suggestions or improvements, you are Welcome :).
+          by Facebook on Udacity to start my adventure with data. I am doing this post to remind my future self and anybody who wants to give exploratory data analysis a Go. Remember I am still a beginner and if you have  any suggestions or improvements, you are Welcome :).
         </p>
         <p>
           So after having gone through first 3 chapters of the course Udacity gives an exercise where we have to pick any data of our choice from Gapminder website and apply our skills that we have learnt so far.
@@ -71,6 +78,7 @@
                   <li>Shall We consider only top ten countries by GDP?</li>
                 </ul>
 
+
                 <p> After forming basic questionnaire, We have to transform raw data so we can compute and visualize it. Above listed questions were not form in ny specific order, I just wrote them as they occur to me. </p>
                 <p>On going through all the questions I thought we should go for answering last two questions first. As they will change the data that we will be working with.</p>
                 <P>Shall We consider those countries which has lots of missing values?</p>
@@ -78,7 +86,9 @@
                   <p>Shall We consider only top ten countries by GDP?</p>
                   <p>As world's top ten country by GDP contributed almost 68% to global GDP. I thought it would be better to just focus on top ten economies only as it would cut the noise and will correctly reflect the status of whole world.</p>
 
+
                   <p> Data Cleansing & Transformations </p>
+
 
                   <p> Since we will focus only on top ten countries, we will need to transform our data to reflect that. But before that there are some issue with the data quality here such as names of the column, format ofthe data etc. That we need to address before plotting our data to get answers. </p>
                   <p class="eda-code">
@@ -86,7 +96,9 @@
                     gdp_data_top_10 <- subset(gdp_data,gdp_data$country %in% c("United States","China","Japan","Germany","United Kingdom","France","India","Italy","Brazil","Canada"))
                   </p>
 
+
                   <p>Here we have subset the data only for top ten countries of the world by GDP.</p>
+
 
                   <p class="eda-code">
                     gdp_data_top_10_stack <- melt(gdp_data_top_10, id.vars = 1:1)
@@ -94,8 +106,10 @@
                     gdp_data_top_10_stack$variable <- substring(gdp_data_top_10_stack$variable, 2, nchar(gdp_data_top_10_stack$variable))
                   </p>
 
+
                   <p>As you will observe data is in wide format i.e. there are one column each for every single year since 1960 till 2004. It would have been easy for us if we can have per year data for each country in row to help us visualize. For that we have used melt function of Reshape library which does it for us in single line of code.
                     Next you will observe that all years have X appended with them such as 1960 is names as X1960. We need to remove this extra character as it will help R to perform any manipulations on date we want. Also readability will be improved when we look at the data. Next two lines of code do this for us. </p>
+
 
                     <p class="eda-code">
                       names(gdp_data_top_10_stack)[2] <- "year"
@@ -120,25 +134,25 @@
                     <p class="eda-code">
                       by(gdp_data_top_10_stack$Economic_Growth, gdp_data_top_10_stack$country, summary)
                     </p>
-                    <p> So we are done with data wragling and visualization part. Now lets see if this perspective that we have got about our data can help us some of the questions that we had initially.</p>
+                    <p> So we are done with data wrangling and visualization part. Now let's see if this perspective that we have got about our data can help us some of the questions that we had initially.</p>
                     <p>Which country has most consistent growth pattern?</p>
-                    <p>As you can from the box plot, United Kingdom's growth has shortest candle length. By further investigting data it gets confirmed that its growth fluctuted between 1%-2.8% annually over period of time which is least of all countries.</p>
+                    <p>As you can from the boxplot, United Kingdom's growth has shortest candle length. By further investigating data it gets confirmed that its growth fluctuated between 1%-2.8% annually over period of time which is least of all countries.</p>
                     <p> Is there any country which was lagging behind initially and then saw rapid rise or vice-versa and Why?</p>
                     <p>To answer this question we need to investigate economies individually.</p>
                     <p class="eda-code">qplot(x = year, y = Economic_Growth,  data = subset(gdp_data_top_10_stack)) + facet_wrap(~country)</p>
                     <p>Here is the output of our plot</p>
                     <img class="eco-plot" src="images/all.png">
-                    <p>We can easiliy infer China as one which saw rapid rise after a slow start. Where as Japan is one the which strted great, gained some momentum and then flattered in the end.</p>
+                    <p>We can easily infer China as one which saw rapid rise after a slow start. Where as Japan is one the which started great, gained some momentum and then flattered in the end.</p>
                     <p>Is there any outlier leader or leggard in growth?</p>
                     <p>Clearly China was world leader in growth during 1960-2004 period.</P>
                       <p>Any particular year or event which changed the economic growth trajectory of any country for decades?</P>
-                        <P>We can easily oberve from above chart that Brazil, China, France, India, Italy and Japan are countrie which has tht one impact year that changes their economoic growth trajtory for decades or forever in some cases. Curious mind can also find our what were the event which triggered these changes but we will stay away from it for now. Following the code that we will se to find out exact year for these countries. e.g. Japan  </P>
+                        <P>We can easily observe from above chart that Brazil, China, France, India, Italy and Japan are countrie which has that one impact year that changes their economic growth trajectory for decades or forever in some cases. Curious mind can also find our what were the event which triggered these changes but we will stay away from it for now. Following the code that we will se to find out exact year for these countries. e.g. Japan  </P>
                         <p class="eda-code">
                           qplot(x = year, y = Economic_Growth,  data = subset(gdp_data_top_10_stack, country == 'Japan')) + scale_x_continuous(limits = c(1960,2004), breaks = seq(1960,2004,2))  + facet_wrap(~country)
                         </p>
                         <img class="eco-plot" src="images/Japan.png">
-                        <p>For Japan, 1969 was inflection point interms of growth. It was grwoing about 8% in that year but after that it fell off and never got back to those gworth rates in its entire history. </p>
-                        <p>For other it follows as</p>
+                        <p>For Japan, 1969 was inflection point in terms of growth. It was growing about 8% in that year but after that it fell off and never got back to those growth rates in its entire history. </p>
+                        <p>For others it follows as</p>
                         <ul>
                           <li>Brazil: 1976</li>
                           <li>China: 1968</li>
@@ -146,20 +160,19 @@
                           <li>India: 1974</li>
                           <li>Italy: 1968</li>
                         </ul>
-                        <p>As you can see 1967-1977 was the decade when all major world economy saw their fortunes changed upside down from being world leadre to growth leggard. </p>
+                        <p>As you can see 1967-1977 was the decade when all major world economy saw their fortunes changed upside down from being world leader to growth leggard. </p>
 
-                          </div>
-                        </section>
+
                       </div>
+                    </section>
+                  </div>
 
-                      <!-- FOOTER  -->
-                      <div id="footer_wrap" class="outer">
-                        <footer class="inner">
-                          <p><a href="twitter.com/anand2sharma">Anand Sharma</a></p>
-                        </footer>
-                      </div>
+                  <!-- FOOTER  -->
+                  <div id="footer_wrap" class="outer">
+                    <footer class="inner">
+                      <p><a href="twitter.com/anand2sharma">Anand Sharma</a></p>
+                    </footer>
+                  </div>
 
-
-
-                    </body>
-                    </html>
+                </body>
+                </html>
