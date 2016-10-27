@@ -425,9 +425,12 @@ Small Device Styles
 
 /* custom styles*/
 .eco-plot{
-  width: 95.8%;
+  width: 98.5%;
 }
-.eda-title {
+.eda-title , .eda-heading{
   font-size: 20px;
   font-weight: 600;
+}
+.eda-heading{
+  font-size: 16px;
 }
