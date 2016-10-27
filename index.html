@@ -59,13 +59,9 @@
         <p> So let's get started: </P>
           <p> First thing we need is to get the data needed for our exploration. Go to <a class="eda-link" href="https://www.gapminder.org/data/">Gapminder's</a> website and search for "Economic growth over the past 10 years" then download the excel file. The file is in excel format we need to convert it into csv for manipulation. This is a personal choice. You can go with excel itself and there are some really awesome libraries available that can do the job for you. I personally prefered csv as a format to work with. Second is conversion from excel to csv, There are so many ways of doing it but for simplicity we will go with Google Docs. Just upload the file into docs and then download it as csv. </P>
             <P> So we got our csv file now it's time to import it and have some fun with R.</p>
-               <script src="https://gist.github.com/anand2sharma/daf21ce5d801e28f5c3b0aa08f3921dd.js"></script>
+
               <p class="eda-code">
-                install.packages('ggplot2')
-                install.packages('reshape')
-                library('ggplot2')
-                library('reshape')
-                gdp_data <- read.csv('data.csv', sep = ',')
+                <script src="https://gist.github.com/anand2sharma/86e38c35e327abc63189be95c3e9c813.js"></script>
               </p>
 
               <p>Here we wrote five statements which are pretty self explanatory. First two statements install both the packages we need, next two loads the packages in memory for us. Every time you start RStudio you have to reload all your dependencies even if they are already installed. Last statement import our converted csv file into memory for R to work with. </p>
@@ -89,9 +85,6 @@
                   <li>Shall We consider only top ten countries by GDP?</li>
                 </ul>
 
-
-
-
                 <p> After forming basic questionnaire, We have to transform raw data so we can compute and visualize it. Above listed questions were not form in ny specific order, I just wrote them as they occur to me. </p>
                 <p>On going through all the questions I thought we should go for answering last two questions first. As they will change the data that we will be working with.</p>
                 <P>Shall We consider those countries which has lots of missing values?</p>
@@ -109,8 +102,7 @@
 
                   <p> Since we will focus only on top ten countries, we will need to transform our data to reflect that. But before that there are some issue with the data quality here such as names of the column, format ofthe data etc. That we need to address before plotting our data to get answers. </p>
                   <p class="eda-code">
-                    names(gdp_data)[1] <- 'country'
-                    gdp_data_top_10 <- subset(gdp_data,gdp_data$country %in% c("United States","China","Japan","Germany","United Kingdom","France","India","Italy","Brazil","Canada"))
+                    <script src="https://gist.github.com/anand2sharma/0470615830c84fda9455b760e2146727.js"></script>
                   </p>
 
 
@@ -118,13 +110,8 @@
 
 
                   <p class="eda-code">
-                    gdp_data_top_10_stack <- melt(gdp_data_top_10, id.vars = 1:1)
-                    gdp_data_top_10_stack$variable <- as.character(gdp_data_top_10_stack$variable)
-                    gdp_data_top_10_stack$variable <- substring(gdp_data_top_10_stack$variable, 2, nchar(gdp_data_top_10_stack$variable))
+                    <script src="https://gist.github.com/anand2sharma/648dca0cb93be79d3834cd1d109b060f.js"></script>
                   </p>
-
-
-
 
                   <p>As you will observe data is in wide format i.e. there are one column each for every single year since 1960 till 2004. It would have been easy for us if we can have per year data for each country in row to help us visualize. For that we have used melt function of Reshape library which does it for us in single line of code.
                     Next you will observe that all years have X appended with them such as 1960 is names as X1960. We need to remove this extra character as it will help R to perform any manipulations on date we want. Also readability will be improved when we look at the data. Next two lines of code do this for us. </p>
