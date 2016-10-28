@@ -37,16 +37,16 @@
           So after having gone through first 3 chapters of the course, Udacity gives an exercise where we have to pick any data of our choice from Gapminder and apply our skills that we have learnt so far.
           As I have some interest in economics and markets, I went ahead with "Economic growth over the past 10 years" dataset.
         </p>
-        <p> Now first thing I needed to do was to get myself familiar with data and its structure. For that we will be using R to explore, understand and transform data. For those who are not familiar with R, It is an open source simple programming language to manipulate data with tons of library available for free. It has simple syntax so it should be readable even if you are not familiar with this language.   </p>
+        <p> Now first thing I needed to do was to get myself familiar with data and its structure. For that we will be using <span class="eda-highlight">R</span> to explore, understand and transform data. For those who are not familiar with R, It is an open source simple programming language to manipulate data with tons of library available for free. It has simple syntax so it should be readable even if you are not familiar with this language.   </p>
         <p>We will use two R packages, <span class="eda-highlight">ggplot2</span> for creating graphs, <span class="eda-highlight">reshape</span> for data manipulation and <span class="eda-highlight">RStudio</span> for development.</p>
         <p> So let's get started: </P>
           <p class="eda-heading"> Exploration </p>
-          <p> First thing we need is to get the data from <a class="eda-link" href="https://www.gapminder.org/data/">Gapminder's</a> website, Go there search for "Economic growth over the past 10 years". The file is in excel format we need to convert it into csv for manipulation. I used Google Docs for this. </P>
-            <P> So we got our csv file now it's time to import it and have some fun with R.</p>
+          <p> First thing we need is to get the data from <a class="eda-link" href="https://www.gapminder.org/data/">Gapminder's</a> website, Go there search for "Economic growth over the past 10 years". The file is in excel format we need to convert it into csv for manipulation. I used <span class="eda-highlight">Google Docs</span> for this. </P>
+            <P> So we got our csv file now, it's time to import it and have some fun with R.</p>
               <p class="eda-code">
                 <script src="https://gist.github.com/anand2sharma/86e38c35e327abc63189be95c3e9c813.js"></script>
               </p>
-              <p>Here First two statements install both the packages we need, next two loads the packages in memory for us. Every time we start RStudio, We have to reload all your dependencies even if they are already installed. Last statement import our converted csv file into memory for R to work with. </p>
+              <p>Here First two statements install both the packages we need, next two loads the packages in memory for us. Every time we start RStudio, We have to reload all your dependencies even if they are already installed. Last statement imports our converted csv file into memory for R to work with. </p>
               <p>After getting data into R it was time to analyze it and form some basic understanding of it. I had following observations: </p>
               <ul>
                 <li>Provided data has observations for 188 countries over period 1960-2004</li>
@@ -63,20 +63,20 @@
                   <li>Is there any outlier leader or leggard in growth?</li>
                   <li>Is there any correlation between the growth of two specific countries?</li>
                   <li>Any particular year or event which changed the economic growth trajectory of any country for decades?</li>
-                  <li>Shall We consider those countries which has lots of missing values?</li>
-                  <li>Shall We consider only top ten countries by GDP?</li>
+                  <li>Should We consider those countries which have lots of missing values?</li>
+                  <li>Should We consider only top ten countries by GDP?</li>
                 </ul>
 
                 <p> After forming basic questionnaire, We have to transform raw data so we can compute and visualize it. Above listed questions were not form in any specific order, I just wrote them as they occur to me. </p>
                 <p>On going through all the questions I thought we should go for answering last two questions first. As they will change the data that we will be working with.</p>
-                <P class="eda-heading">Shall We consider those countries which has lots of missing values?</p>
+                <P class="eda-heading">Should We consider those countries which has lots of missing values?</p>
                   <p>I thought significant missing values would affect data quality and later our model if we build one which ultimately affect prediction. I also thought of any other filling method such as replacing missing values and other solutions but decided not to include countries which has lots of missing values. Another factor was answer of our next question. </p>
-                  <p class="eda-heading">Shall We consider only top ten countries by GDP?</p>
+                  <p class="eda-heading">Should We consider only top ten countries by GDP?</p>
                   <p>As world's top ten country by GDP contributed almost 68% to global GDP. I thought it would be better to just focus on top ten economies only as it would cut the noise and will correctly reflect the status of world economy.</p>
 
                   <p class="eda-heading"> Data Cleansing & Transformations </p>
 
-                  <p> Since we will focus only on top ten countries, we will need to transform our data to reflect that. But before that there are some issue with the data quality here such as names of the column, format of the data etc. That we need to address before plotting our data to get answers. </p>
+                  <p> Since we will focus only on top ten countries, we will need to transform our data to reflect that. But before that there are some issues with the data quality here such as names of the column, format of the data etc. That we need to address before plotting our data to get answers. </p>
                   <p class="eda-code">
                     <script src="https://gist.github.com/anand2sharma/0470615830c84fda9455b760e2146727.js"></script>
                   </p>
@@ -87,7 +87,7 @@
                     <script src="https://gist.github.com/anand2sharma/648dca0cb93be79d3834cd1d109b060f.js"></script>
                   </p>
 
-                  <p>As you will observe data is in wide format i.e. there are one column each for every single year since 1960 till 2004. It would have been easy for us if we can have per year data for each country in row to help us visualize. For that we have used melt function of Reshape library which does it for us in single line of code.
+                  <p>As you will observe data is in wide format i.e. there is one column each for every single year since 1960 till 2004. It would be been easy for us if we can have per year data for each country in row to help us visualize. For that we have used melt function of Reshape library which does it for us in single line of code.
                     Next you will observe that all years have X appended with them such as 1960 is named as X1960. We need to remove this extra character as it will help R to perform any manipulations on dates we want. Also readability will be improved when we look at the data. Next two lines of code do this for us. </p>
 
 
@@ -151,7 +151,7 @@
                             <p>As you can see 1967-1977 was the decade when all major world economy saw their fortunes changed upside down from being world leader to growth leggard and vice-versa. </p>
 
 
-                            <p> So we have been able to answer all our curiosity and questions from data and that's awesome because its unbiased and accurate. I know this article got little long and hope it was worth your time. Thanks for reading and keep crunching data, YAY!!</p>
+                            <p> So we have been able to answer all our curiosity and questions from data and that's awesome because its <span class="eda-highlight">unbiased</span> and accurate. I know this article got little long and hope it was worth your time. Thanks for reading and keep crunching data, YAY!!</p>
 
                           </div>
                         </section>

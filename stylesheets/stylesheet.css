@@ -434,3 +434,6 @@ Small Device Styles
 .eda-heading{
   font-size: 16px;
 }
+.eda-highlight{
+  font-weight: 600;
+}
